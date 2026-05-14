@@ -30,18 +30,7 @@ Polls every 2 seconds. Runs embedded PowerShell via `spawnSync` with `windowsHid
 2. **Playwright-owned chromium/msedge** with no live `node.exe` parent
 3. **Orphaned chromium** processes (path-agnostic — catches headless-shell variants)
 4. **Windows Terminal popup tabs** opened at `ms-playwright` paths (< 30 min old)
-5. **MCP conhost.exe** windows from Claude Code spawning `npx @playwright/mcp` — **hidden, not killed** (MCP server keeps running)
-
-```bash
-# Daemon mode (managed by PM2)
-node popup-watchdog.js
-
-# Single sweep, exit 0
-node popup-watchdog.js --once
-
-# Custom polling interval
-node popup-watchdog.js --interval 5000
-```
+5. **MCP conhost.exe** windows from AI tooling spawning `npx @playwright/mcp` — **hidden, not killed** (MCP server keeps running)
 
 ### `cleanup-pm2-popups.ps1` — Daily Maintenance Sweep
 
@@ -55,17 +44,6 @@ Runs at 05:00 AM ET (before cron jobs start). Six phases:
 | 3 | Reset PM2 restart counters over 50 (`pm2 reset <app>`) |
 | 4 | Kill orphaned Playwright chromium (no live `node.exe` parent) |
 | 6 | Kill orphaned `cloudflared.exe` and `pythonw.exe` holding PM2 ports |
-
-```powershell
-# Dry run — shows what would happen, no changes
-.\cleanup-pm2-popups.ps1 -DryRun
-
-# Live run
-.\cleanup-pm2-popups.ps1
-
-# Custom stale threshold (default: 24h)
-.\cleanup-pm2-popups.ps1 -StaleHours 12
-```
 
 ---
 
@@ -99,35 +77,6 @@ Runs at 05:00 AM ET (before cron jobs start). Six phases:
               └─────────────────────┘          │ counter reset        │
                                                └──────────────────────┘
 ```
-
----
-
-## Setup
-
-### popup-watchdog — PM2 ecosystem entry
-
-```js
-// ecosystem.config.cjs
-{
-  name: 'popup-watchdog',
-  script: 'popup-watchdog.js',
-  cwd: 'C:/path/to/livestat',
-  windowsHide: true,
-  autorestart: true,
-  watch: false,
-}
-```
-
-### cleanup-pm2-popups — Windows Task Scheduler
-
-```
-Action:  powershell.exe -WindowStyle Hidden -File "C:\path\cleanup-pm2-popups.ps1"
-Trigger: Daily at 05:00 AM
-```
-
-### Optional: Discord alerts
-
-Set `DISCORD_WEBHOOK_URL` in your environment. The daily sweep sends a message when issues are found (silent on clean runs).
 
 ---
 
@@ -171,3 +120,7 @@ Both scripts write structured logs to `./logs/`:
 - Node.js 18+
 - PM2 (`npm install -g pm2`)
 - Admin rights not required (process parent checks use `Get-CimInstance`, visible to current user)
+
+---
+
+*Built by Frxncois — not open source.*
