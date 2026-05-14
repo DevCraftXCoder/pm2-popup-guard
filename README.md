@@ -118,7 +118,7 @@ Both scripts write structured logs to `./logs/`:
 - Windows 10/11
 - PowerShell 5.1+
 - Node.js 18+
-- PM2 (`npm install -g pm2`)
+- PM2 (`npx pm2` or `pnpm add -g pm2`)
 - Admin rights not required (process parent checks use `Get-CimInstance`, visible to current user)
 
 ---
