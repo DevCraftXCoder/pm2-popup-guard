@@ -121,6 +121,15 @@ Both scripts write structured logs to `./logs/`:
 - PM2 (`npx pm2` or `pnpm add -g pm2`)
 - Admin rights not required (process parent checks use `Get-CimInstance`, visible to current user)
 
+## Recent Additions
+
+- PM2 daemon health monitoring and auto-resurrect on startup
+- Windows Terminal popup prevention for AI tooling (MCP conhost hiding)
+- Port binding recovery and service auto-restart on `EADDRINUSE`
+- PM2 restart counter reset (clears misleading `>50` health signals)
+- Orphaned `cloudflared` and `pythonw` process cleanup
+- Task Scheduler integration for automated 5 AM ET daily maintenance sweeps
+
 ---
 
 *Built by Frxncois — not open source.*
