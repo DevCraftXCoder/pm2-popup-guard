@@ -30,7 +30,7 @@ Polls every 2 seconds. Runs embedded PowerShell via `spawnSync` with `windowsHid
 2. **Playwright-owned chromium/msedge** with no live `node.exe` parent
 3. **Orphaned chromium** processes (path-agnostic — catches headless-shell variants)
 4. **Windows Terminal popup tabs** opened at `ms-playwright` paths (< 30 min old)
-5. **MCP conhost.exe** windows from AI tooling spawning `npx @playwright/mcp` — **hidden, not killed** (MCP server keeps running)
+5. **MCP conhost.exe** windows from automation tooling spawning `npx @playwright/mcp` — **hidden, not killed** (MCP server keeps running)
 
 ### `cleanup-pm2-popups.ps1` — Daily Maintenance Sweep
 
@@ -124,7 +124,7 @@ Both scripts write structured logs to `./logs/`:
 ## Recent Additions
 
 - PM2 daemon health monitoring and auto-resurrect on startup
-- Windows Terminal popup prevention for AI tooling (MCP conhost hiding)
+- Windows Terminal popup prevention for automation tooling (MCP conhost hiding)
 - Port binding recovery and service auto-restart on `EADDRINUSE`
 - PM2 restart counter reset (clears misleading `>50` health signals)
 - Orphaned `cloudflared` and `pythonw` process cleanup
